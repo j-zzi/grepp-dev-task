@@ -30,4 +30,32 @@ class Message
   def self.expired_token
     'Sorry, your token has expired. Please login to continue.'
   end
+
+  def self.deadline_passed
+    "Reservations are only allowed up to 3 days before the test"
+  end
+
+  def self.exceeds_capacity
+    "Maximum capacity exceeded"
+  end
+
+  def self.invalid_test_schedule
+    "Invalid test schedule"
+  end
+
+  def self.reservation_created
+    "Reservation created successfully"
+  end
+
+  def self.reservation_updated
+    "Reservation updated successfully"
+  end
+
+  def self.reservation_deleted
+    "Reservation deleted successfully"
+  end
+
+  def self.reservation_not_created
+    'Reservation could not be created'
+  end
 end

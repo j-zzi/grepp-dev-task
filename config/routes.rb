@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
-  post 'signup', to: 'user#create'
-  post 'auth/login', to: 'authentication#authenticate'
+  resources :users, only: [:create]
+
+  resources :auth, only: [], controller: 'authentication' do
+    collection do
+      post 'login', action: :authenticate
+    end
+  end
+
+  resources :reservations, only: [:index, :create, :update, :destroy]
 end
