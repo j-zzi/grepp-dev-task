@@ -2,8 +2,20 @@ class TestController < ApplicationController
   before_action :set_test, only: :destroy
 
   def index
-    tests = Test.all
-    json_response(tests, :ok, Message.test_index)
+    page = params[:page] || 1
+    per_page = params[:per_page] || 10
+    
+    tests = Test.order(id: :desc).page(page).per(per_page)
+    
+    json_response({
+      tests: tests,
+      meta: {
+        current_page: tests.current_page,
+        total_pages: tests.total_pages,
+        total_count: tests.total_count,
+        per_page: tests.limit_value
+      }
+    }, :ok, Message.test_index)
   end
 
   def create

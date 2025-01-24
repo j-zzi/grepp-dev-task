@@ -59,10 +59,6 @@ class Message
     "Reservation updated successfully"
   end
 
-  def self.reservation_deleted
-    "Reservation deleted successfully"
-  end
-
   def self.reservation_not_created
     'Reservation could not be created'
   end
@@ -73,10 +69,6 @@ class Message
 
   def self.test_updated
     'Test updated successfully'
-  end
-
-  def self.test_deleted
-    'Test deleted successfully'
   end
 
   def self.test_index
