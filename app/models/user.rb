@@ -4,5 +4,5 @@ class User < ApplicationRecord
 
     validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP, message: "is not a valid email" }
 
-    enum role: { user: 'user', admin: 'admin' }
+    enum :role, { user: 0, admin: 1 }
 end
