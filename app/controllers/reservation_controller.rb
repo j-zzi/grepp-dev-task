@@ -1,9 +1,9 @@
-class ReservationsController < ApplicationController
+class ReservationController < ApplicationController
   before_action :set_reservation, only: [:update, :destroy]
   
   def index
     reservations = current_user.reservations.includes(:test_schedule)
-    json_response(reservations)
+    json_response(reservations, :ok, Message.reservation_index)
   end
 
   def create
@@ -12,14 +12,12 @@ class ReservationsController < ApplicationController
       reservation_params[:test_schedule_id],
       reservation_params[:participants]
     ).call
-    response = { message: Message.reservation_created, reservation: reservation }
-    json_response(response, :created)
+    json_response(reservation,:created, Message.reservation_created)
   end
 
   def update
     reservation = UpdateReservation.new(@reservation, reservation_params).call
-    response = { message: Message.reservation_updated, reservation: reservation }
-    json_response(response, :ok)
+    json_response(reservation,:ok, Message.reservation_updated)
   end
 
   def destroy

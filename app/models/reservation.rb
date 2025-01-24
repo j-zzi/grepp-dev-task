@@ -21,8 +21,7 @@ class Reservation < ApplicationRecord
   def within_deadline
     return unless test_schedule
     
-    deadline = test_schedule.start_time - 3.days
-    if Time.current > deadline
+    if Time.current > test_schedule.deadline
       errors.add(:base, Message.deadline_passed)
     end
   end

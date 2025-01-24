@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_23_085911) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_24_112142) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "reservations", force: :cascade do |t|
     t.integer "participants"
     t.integer "status"
-    t.bigint "test_schedules_id"
-    t.bigint "users_id"
+    t.bigint "test_schedule_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["test_schedules_id"], name: "index_reservations_on_test_schedules_id"
-    t.index ["users_id"], name: "index_reservations_on_users_id"
+    t.index ["test_schedule_id"], name: "index_reservations_on_test_schedule_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "test_schedules", force: :cascade do |t|
@@ -30,10 +30,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_23_085911) do
     t.datetime "end_time"
     t.datetime "deadline"
     t.integer "number_of_participants"
-    t.bigint "tests_id"
+    t.bigint "test_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tests_id"], name: "index_test_schedules_on_tests_id"
+    t.index ["test_id"], name: "index_test_schedules_on_test_id"
   end
 
   create_table "tests", force: :cascade do |t|
@@ -57,7 +57,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_23_085911) do
     t.integer "role", default: 0
   end
 
-  add_foreign_key "reservations", "test_schedules", column: "test_schedules_id"
-  add_foreign_key "reservations", "users", column: "users_id"
-  add_foreign_key "test_schedules", "tests", column: "tests_id"
+  add_foreign_key "reservations", "test_schedules"
+  add_foreign_key "reservations", "users"
+  add_foreign_key "test_schedules", "tests"
 end
