@@ -43,10 +43,6 @@ class Message
     "Invalid test schedule"
   end
 
-  def self.reservation_not_found
-    "Reservation not found"
-  end
-
   def self.reservation_created
     "Reservation created successfully"
   end
@@ -57,5 +53,9 @@ class Message
 
   def self.reservation_deleted
     "Reservation deleted successfully"
+  end
+
+  def self.reservation_not_created
+    'Reservation could not be created'
   end
 end
