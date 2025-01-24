@@ -1,9 +1,9 @@
-class ReservationsController < ApplicationController
+class ReservationController < ApplicationController
   before_action :set_reservation, only: [:update, :destroy]
   
   def index
     reservations = current_user.reservations.includes(:test_schedule)
-    json_response(reservations)
+    json_response(reservations, :ok)
   end
 
   def create

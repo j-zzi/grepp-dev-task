@@ -58,4 +58,16 @@ class Message
   def self.reservation_not_created
     'Reservation could not be created'
   end
+
+  def self.test_created
+    'Test created successfully'
+  end
+
+  def self.test_updated
+    'Test updated successfully'
+  end
+
+  def self.test_deleted
+    'Test deleted successfully'
+  end
 end
