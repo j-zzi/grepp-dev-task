@@ -23,6 +23,10 @@ class Message
     'Account created successfully'
   end
 
+  def self.login_success
+    'Login successful'
+  end
+
   def self.account_not_created
     'Account could not be created'
   end
@@ -41,6 +45,10 @@ class Message
 
   def self.invalid_test_schedule
     "Invalid test schedule"
+  end
+
+  def self.reservation_index
+    "Reservations read successfully"
   end
 
   def self.reservation_created
@@ -69,5 +77,9 @@ class Message
 
   def self.test_deleted
     'Test deleted successfully'
+  end
+
+  def self.test_index
+    'Tests read successfully'
   end
 end

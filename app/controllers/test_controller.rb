@@ -3,13 +3,12 @@ class TestController < ApplicationController
 
   def index
     tests = Test.all
-    json_response(tests, :ok)
+    json_response(tests, :ok, Message.test_index)
   end
 
   def create
     test = CreateTest.new(test_params,schedule_params).call
-    response = { message: Message.test_created, test: test }
-    json_response(response, :created)
+    json_response(test,:created, Message.test_created)
   end
 
   def destroy
