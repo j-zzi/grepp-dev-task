@@ -1,4 +1,6 @@
 class Test < ApplicationRecord
+    VALID_STATUSES = %w[closed ongoing].freeze
+    
     has_many :test_schedules, dependent: :destroy
 
     validates :title, presence: true

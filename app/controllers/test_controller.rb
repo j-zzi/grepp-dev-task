@@ -7,16 +7,8 @@ class TestController < ApplicationController
     status = params[:status]  # 'closed' 또는 'ongoing'
   
     tests = Test.order(id: :desc)
-    tests = case status
-            when 'closed'
-              tests.closed
-            when 'ongoing'
-              tests.ongoing
-            else
-              tests
-            end
-  
-  tests = tests.page(page).per(per_page)
+    tests = tests.public_send(params[:status])
+    tests = tests.page(page).per(per_page)
     
     json_response({
       tests: tests,
