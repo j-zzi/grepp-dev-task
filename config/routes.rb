@@ -9,5 +9,5 @@ Rails.application.routes.draw do
 
   resources :reservations, only: [:index, :create, :update, :destroy]
 
-  resources :tests, only: [:index, :create, :show, :destroy], controller: 'test'
+  resources :tests, only: [:index, :create, :destroy], controller: 'test'
 end

@@ -4,7 +4,7 @@ class TestController < ApplicationController
   def index
     page = params[:page] || 1
     per_page = params[:per_page] || 10
-    status = params[:status]  # 'closed' 또는 'ongoing'
+    status = params[:status]
   
     tests = Test.order(id: :desc)
     tests = tests.public_send(params[:status])
@@ -19,15 +19,6 @@ class TestController < ApplicationController
         per_page: tests.limit_value
       }
     }, :ok, Message.test_index)
-  end
-
-  def show
-    test = Test.includes(:test_schedules).find(params[:id])
-    response = {  
-      test: test,
-      test_schedules: test.test_schedules
-    }
-    render json: response, status: :ok
   end
 
   def create
