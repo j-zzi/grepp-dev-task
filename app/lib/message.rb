@@ -63,6 +63,14 @@ class Message
     'Reservation could not be created'
   end
 
+  def self.cannot_update_reservation
+    'Cannot update this reservation'
+  end
+
+  def self.reservation_not_updated
+    'Reservation could not be updated'
+  end
+
   def self.test_created
     'Test created successfully'
   end

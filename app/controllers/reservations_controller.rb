@@ -9,15 +9,15 @@ class ReservationsController < ApplicationController
   def create
     reservation = CreateReservation.new(
       current_user,
-      reservation_params[:test_schedule_id],
-      reservation_params[:participants]
+      create_params[:test_schedule_id],
+      create_params[:participants]
     ).call
-    json_response(reservation,:created, Message.reservation_created)
+    json_response(reservation, :created, Message.reservation_created)
   end
 
   def update
-    reservation = UpdateReservation.new(@reservation, reservation_params).call
-    json_response(reservation,:ok, Message.reservation_updated)
+    reservation = UpdateReservation.new(@reservation, update_params[:participants]).call
+    json_response(@reservation, :ok, Message.reservation_updated)
   end
 
   def destroy
@@ -33,7 +33,11 @@ class ReservationsController < ApplicationController
     raise(ExceptionHandler::NotFound, Message.not_found('Reservation'))
   end
 
-  def reservation_params
+  def create_params
     params.require(:reservation).permit(:test_schedule_id, :participants)
+  end
+
+  def update_params
+    params.require(:reservation).permit(:participants)
   end
 end

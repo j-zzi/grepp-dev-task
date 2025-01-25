@@ -2,11 +2,10 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :test_schedule
 
-  enum status: {
+  enum :status, {
     pending: 0, 
     confirmed: 1,  
     rejected: 2,  
-    canceled: 3  
   }
 
   validates :user_id, presence: true
@@ -22,7 +21,7 @@ class Reservation < ApplicationRecord
     return unless test_schedule
     
     if Time.current > test_schedule.deadline
-      errors.add(:base, Message.deadline_passed)
+      raise ExceptionHandler::InvalidRequest, Message.deadline_passed
     end
   end
 
@@ -33,7 +32,7 @@ class Reservation < ApplicationRecord
     max_capacity = 50_000
     
     if (current_participants + participants) > max_capacity
-      errors.add(:base, Message.exceeds_capacity)
+      raise ExceptionHandler::InvalidRequest, Message.exceeds_capacity
     end
   end
 end
