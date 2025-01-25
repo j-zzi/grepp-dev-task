@@ -4,8 +4,19 @@ class TestController < ApplicationController
   def index
     page = params[:page] || 1
     per_page = params[:per_page] || 10
-    
-    tests = Test.order(id: :desc).page(page).per(per_page)
+    status = params[:status]  # 'closed' 또는 'ongoing'
+  
+    tests = Test.order(id: :desc)
+    tests = case status
+            when 'closed'
+              tests.closed
+            when 'ongoing'
+              tests.ongoing
+            else
+              tests
+            end
+  
+  tests = tests.page(page).per(per_page)
     
     json_response({
       tests: tests,
@@ -16,6 +27,15 @@ class TestController < ApplicationController
         per_page: tests.limit_value
       }
     }, :ok, Message.test_index)
+  end
+
+  def show
+    test = Test.includes(:test_schedules).find(params[:id])
+    response = {  
+      test: test,
+      test_schedules: test.test_schedules
+    }
+    render json: response, status: :ok
   end
 
   def create

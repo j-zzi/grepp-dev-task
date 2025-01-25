@@ -1,5 +1,5 @@
 module Response
-  def json_response(data = nil, status = :ok, message = nil)
+  def json_response(data, status, message)
     render json: {
       status: Rack::Utils.status_code(status),
       data: data,
