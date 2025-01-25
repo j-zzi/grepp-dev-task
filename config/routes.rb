@@ -10,4 +10,14 @@ Rails.application.routes.draw do
   resources :reservations, only: [:index, :create, :update, :destroy]
 
   resources :tests, only: [:index, :create, :destroy]
+
+  namespace :admin do
+    resources :reservations, only: [:index] do
+      member do
+        patch :confirm
+        patch :reject
+      end
+    end
+    resources :tests, only: :create
+  end
 end

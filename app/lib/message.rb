@@ -82,4 +82,8 @@ class Message
   def self.test_index
     'Tests read successfully'
   end
+
+  def self.invalid_status
+    'Invalid status'
+  end
 end
