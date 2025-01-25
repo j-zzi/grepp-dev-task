@@ -2,7 +2,7 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :test_schedule
 
-  enum status: {
+  enum :status, {
     pending: 0, 
     confirmed: 1,  
     rejected: 2,  
