@@ -1,10 +1,11 @@
 module ExceptionHandler
   extend ActiveSupport::Concern
-  include Response  # Response concern 포함
+  include Response
 
   class AuthenticationError < StandardError; end
   class MissingToken < StandardError; end
   class InvalidToken < StandardError; end
+  class InvalidRequest < StandardError; end
 
   included do
     rescue_from ExceptionHandler::AuthenticationError do |e|
