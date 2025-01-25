@@ -2,8 +2,23 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:update, :destroy]
   
   def index
-    reservations = current_user.reservations.includes(:test_schedule)
-    json_response(reservations, :ok, Message.reservation_index)
+    page = params[:page] || 1
+    per_page = params[:per_page] || 10
+    status = params[:status]
+
+    reservations = current_user.reservations.includes(:test_schedule).order(id: :desc)
+    reservations = reservations.public_send(status) if status.present? && Reservation.statuses.key?(status)
+    reservations = reservations.page(page).per(per_page)
+
+    json_response({
+      reservations: reservations,
+      meta: {
+        current_page: reservations.current_page,
+        total_pages: reservations.total_pages,
+        total_count: reservations.total_count,
+        per_page: reservations.limit_value
+      }
+    }, :ok, Message.reservation_index)
   end
 
   def create

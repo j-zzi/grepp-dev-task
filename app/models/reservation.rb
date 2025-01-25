@@ -1,4 +1,6 @@
 class Reservation < ApplicationRecord
+  VALID_STATUSES = %w[pending confirmed rejected canceled].freeze
+
   belongs_to :user
   belongs_to :test_schedule
 
@@ -6,6 +8,7 @@ class Reservation < ApplicationRecord
     pending: 0, 
     confirmed: 1,  
     rejected: 2,  
+    canceled: 3
   }
 
   validates :user_id, presence: true

@@ -7,7 +7,7 @@ class TestsController < ApplicationController
     status = params[:status]
   
     tests = Test.order(id: :desc)
-    tests = tests.public_send(params[:status])
+    tests = tests.public_send(status)
     tests = tests.page(page).per(per_page)
     
     json_response({
