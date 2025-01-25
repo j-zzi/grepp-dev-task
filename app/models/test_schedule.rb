@@ -10,9 +10,7 @@ class TestSchedule < ApplicationRecord
   private
 
   def set_default_values
-    if start_time.present?
-      self.deadline ||= start_time - 3.days
-    end
+    self.deadline ||= start_time - 3.days
     self.number_of_participants ||= 0
   end
 end

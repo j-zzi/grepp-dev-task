@@ -1,11 +1,14 @@
-class TestController < ApplicationController
+class TestsController < ApplicationController
   before_action :set_test, only: :destroy
 
   def index
     page = params[:page] || 1
     per_page = params[:per_page] || 10
-    
-    tests = Test.order(id: :desc).page(page).per(per_page)
+    status = params[:status]
+  
+    tests = Test.order(id: :desc)
+    tests = tests.public_send(params[:status])
+    tests = tests.page(page).per(per_page)
     
     json_response({
       tests: tests,
