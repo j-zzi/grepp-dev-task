@@ -1,4 +1,4 @@
-class TestController < ApplicationController
+class TestsController < ApplicationController
   before_action :set_test, only: :destroy
 
   def index
