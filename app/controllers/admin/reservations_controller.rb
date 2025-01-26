@@ -1,7 +1,6 @@
-module Admin
-  class ReservationsController < ApplicationController
-    include Filterable
-    before_action :set_reservation, only: [:confirm, :reject, :update]
+class Admin::ReservationsController < AdminController
+  include Filterable
+  before_action :set_reservation, only: [:confirm, :reject, :update]
 
     def index
       page = params[:page] || 1
@@ -55,6 +54,4 @@ module Admin
     def update_params
       params.require(:reservation).permit(:participants, :test_schedule_id)
     end
-  end
 end
-
