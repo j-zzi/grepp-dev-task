@@ -63,12 +63,24 @@ class Message
     'Reservation could not be created'
   end
 
+  def self.not_pending_reservation
+    'Reservation is not pending'
+  end
+
   def self.cannot_update_reservation
     'Cannot update this reservation'
   end
 
   def self.reservation_not_updated
     'Reservation could not be updated'
+  end
+
+  def self.reservation_confirmed
+    'Reservation confirmed successfully'
+  end
+
+  def self.reservation_rejected
+    'Reservation rejected successfully'
   end
 
   def self.test_created
@@ -81,6 +93,10 @@ class Message
 
   def self.test_index
     'Tests read successfully'
+  end
+
+  def self.test_not_created
+    'Test could not be created'
   end
 
   def self.invalid_status

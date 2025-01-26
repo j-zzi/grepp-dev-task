@@ -25,7 +25,7 @@ module ExceptionHandler
     end
 
     rescue_from ActiveRecord::RecordInvalid do |e|
-      error_response(e.message, :unprocessable_entity, e.record.errors.messages)
+      error_response(e.message, :unprocessable_entity)
     end
   end
 end

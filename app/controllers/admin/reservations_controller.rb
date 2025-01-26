@@ -26,11 +26,20 @@ module Admin
     end
 
     def confirm
-      @reservation.confirmed!
+      check_reservation_status
+      
+      ActiveRecord::Base.transaction do
+        @reservation.confirmed!
+        @reservation.test_schedule.increment!(:number_of_participants, @reservation.participants)
+      rescue ActiveRecord::RecordInvalid
+        raise ExceptionHandler::InvalidRequest, Message.reservation_not_updated
+      end
+
       json_response(@reservation, :ok, Message.reservation_confirmed)
     end
 
     def reject
+      check_reservation_status
       @reservation.rejected!
       json_response(@reservation, :ok, Message.reservation_rejected)
     end
@@ -39,6 +48,12 @@ module Admin
 
     def set_reservation
       @reservation = Reservation.find(params[:id])
+    end
+
+    def check_reservation_status
+      unless @reservation.pending?
+        raise ExceptionHandler::InvalidRequest, Message.not_pending_reservation
+      end
     end
   end
 end
