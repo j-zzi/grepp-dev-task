@@ -26,12 +26,12 @@ module Admin
     end
 
     def confirm
-      @reservation.confirm!
+      @reservation.confirmed!
       json_response(@reservation, :ok, Message.reservation_confirmed)
     end
 
     def reject
-      @reservation.reject!
+      @reservation.rejected!
       json_response(@reservation, :ok, Message.reservation_rejected)
     end
 
