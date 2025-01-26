@@ -99,6 +99,10 @@ class Message
     'Test could not be created'
   end
 
+  def self.test_schedules_index
+    'Test schedules read successfully'
+  end
+
   def self.cannot_delete_test_with_reservations
     'Cannot delete test with active reservations'
   end

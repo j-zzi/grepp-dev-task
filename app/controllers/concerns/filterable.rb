@@ -9,4 +9,16 @@ module Filterable
     
     reservations.where(status: status)
   end
+
+  def filter_by_availability(schedules, available)
+    return schedules if available.blank? || available == 'all'
+    raise ExceptionHandler::InvalidRequest, 'Invalid availability' unless ['true', 'false'].include?(available)
+    
+    case available
+    when 'true'
+      schedules.available
+    when 'false'
+      schedules.unavailable
+    end
+  end
 end

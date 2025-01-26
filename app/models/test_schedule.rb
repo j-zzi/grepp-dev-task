@@ -7,6 +7,12 @@ class TestSchedule < ApplicationRecord
 
   before_validation :set_default_values
 
+  MAX_CAPACITY = 50_000
+
+  scope :ordered, -> { order(start_time: :asc) }
+  scope :available, -> { where('deadline > ? AND number_of_participants < ?', Time.current, MAX_CAPACITY) }
+  scope :unavailable, -> { where('deadline <= ? OR number_of_participants >= ?', Time.current, MAX_CAPACITY) }
+
   private
 
   def set_default_values

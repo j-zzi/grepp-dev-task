@@ -1,4 +1,7 @@
 class TestsController < ApplicationController
+  include Filterable
+  before_action :set_test, only: :schedules
+
   def index
     page = params[:page] || 1
     per_page = params[:per_page] || 10
@@ -17,6 +20,15 @@ class TestsController < ApplicationController
         per_page: tests.limit_value
       }
     }, :ok, Message.test_index)
+  end
+
+  def schedules
+    schedules = @test.test_schedules.ordered
+    schedules = filter_by_availability(schedules, params[:available])
+
+    json_response({
+      test_schedules: ActiveModelSerializers::SerializableResource.new(schedules, each_serializer: TestScheduleSerializer, context: :list),
+    }, :ok, Message.test_schedules_index)
   end
 
   private
