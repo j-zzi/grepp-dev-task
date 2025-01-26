@@ -7,7 +7,7 @@ class Test < ApplicationRecord
     validates :title, presence: true
     validates :description, presence: true
 
-    scope :closed, -> {
+    scope :unavailable, -> {
       where.not(
         id: Test.joins(:test_schedules).where(
           'test_schedules.number_of_participants < ? AND test_schedules.deadline >= ?',
@@ -17,7 +17,7 @@ class Test < ApplicationRecord
       )
     }
   
-    scope :ongoing, -> {
+    scope :available, -> {
       where(
         id: Test.joins(:test_schedules).where(
           'test_schedules.number_of_participants < ? AND test_schedules.deadline >= ?',
@@ -28,13 +28,13 @@ class Test < ApplicationRecord
     }
 
     def destroy
-      raise ExceptionHandler::InvalidRequest, Message.cannot_delete_test_with_reservations if has_active_reservations?
+      raise ExceptionHandler::InvalidRequest, Message.cannot_delete_test_with_reservations if has_reservations?
       super
     end
 
     private
 
-    def has_active_reservations?
-      reservations.where(status: [:pending, :confirmed]).exists?
+    def has_reservations?
+      reservations.exists?
     end
 end

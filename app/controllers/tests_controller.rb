@@ -5,10 +5,10 @@ class TestsController < ApplicationController
   def index
     page = params[:page] || 1
     per_page = params[:per_page] || 10
-    status = params[:status]
+    status = params[:available]
   
     tests = Test.order(id: :desc)
-    tests = tests.public_send(status)
+    tests = filter_tests_by_availability(tests, params[:available])
     tests = tests.page(page).per(per_page)
     
     json_response({
@@ -24,7 +24,7 @@ class TestsController < ApplicationController
 
   def schedules
     schedules = @test.test_schedules.ordered
-    schedules = filter_by_availability(schedules, params[:available])
+    schedules = filter_schedules_by_availability(schedules, params[:available])
 
     json_response({
       test_schedules: ActiveModelSerializers::SerializableResource.new(schedules, each_serializer: TestScheduleSerializer, context: :list),

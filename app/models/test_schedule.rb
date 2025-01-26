@@ -15,6 +15,11 @@ class TestSchedule < ApplicationRecord
   scope :available, -> { where('deadline > ? AND number_of_participants < ?', Time.current, MAX_CAPACITY) }
   scope :unavailable, -> { where('deadline <= ? OR number_of_participants >= ?', Time.current, MAX_CAPACITY) }
 
+  def destroy
+    raise ExceptionHandler::InvalidRequest, Message.test_schedule_has_reservations if has_reservations?
+    super
+  end
+
   private
 
   def set_default_values
@@ -36,5 +41,9 @@ class TestSchedule < ApplicationRecord
     if deadline <= Time.current
       raise ExceptionHandler::InvalidRequest, Message.invalid_test_schedule_deadline
     end
+  end
+
+  def has_reservations?
+    reservations.exists?
   end
 end

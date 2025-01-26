@@ -8,10 +8,6 @@ class Admin::TestSchedulesController < ApplicationController
   end
 
   def destroy
-    if @test_schedule.reservations.where(status: [:confirmed, :pending]).exists?
-      raise ExceptionHandler::InvalidRequest, Message.test_schedule_has_reservations
-    end
-    
     @test_schedule.destroy!
     head :no_content
   end
