@@ -99,11 +99,31 @@ class Message
     'Test could not be created'
   end
 
+  def self.test_schedules_index
+    'Test schedules read successfully'
+  end
+
+  def self.test_schedule_created
+    'Test schedule created successfully'
+  end 
+
   def self.cannot_delete_test_with_reservations
     'Cannot delete test with active reservations'
   end
 
   def self.invalid_status
     'Invalid status'
+  end
+  
+  def self.invalid_test_schedule_time
+    'Start time must be earlier than end time'
+  end
+
+  def self.test_schedule_has_reservations
+    'Test schedule has reservations'
+  end
+
+  def self.invalid_test_schedule_deadline
+    'Deadline must be in the future'
   end
 end
