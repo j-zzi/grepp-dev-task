@@ -11,16 +11,14 @@ class UpdateReservation
 
   private
 
-  attr_reader :reservation, :participants
-
   def check_reservation_status
-    unless reservation.pending?
+    unless @reservation.pending?
       raise(ExceptionHandler::InvalidRequest, Message.cannot_update_reservation)
     end
   end
 
   def update_reservation
-    reservation.update!(participants: participants)
+    @reservation.update!(participants: @participants)
   rescue ActiveRecord::RecordInvalid => e
     raise(ExceptionHandler::InvalidRequest, Message.reservation_not_updated)
   end

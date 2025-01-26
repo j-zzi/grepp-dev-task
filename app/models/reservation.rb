@@ -38,4 +38,8 @@ class Reservation < ApplicationRecord
       raise ExceptionHandler::InvalidRequest, Message.exceeds_capacity
     end
   end
+
+  def check_pending_status
+    raise ExceptionHandler::InvalidRequest, Message.not_pending_reservation unless pending?
+  end
 end

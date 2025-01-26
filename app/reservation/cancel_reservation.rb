@@ -10,18 +10,15 @@ class CancelReservation
 
   private
 
-  attr_reader :reservation
-
   def check_reservation_status
-    unless reservation.pending?
+    unless @reservation.pending?
       raise(ExceptionHandler::InvalidRequest, Message.cannot_cancel_reservation)
     end
   end
 
   def cancel_reservation
-    reservation.canceled!
+    @reservation.canceled!
   rescue ActiveRecord::RecordInvalid
     raise(ExceptionHandler::InvalidRequest, Message.reservation_not_updated)
-    end
   end
 end

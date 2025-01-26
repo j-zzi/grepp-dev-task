@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :tests, only: [:index, :create, :destroy]
 
   namespace :admin do
-    resources :reservations, only: [:index] do
+    resources :reservations, only: [:index, :update] do
       member do
         patch :confirm
         patch :reject

@@ -1,7 +1,8 @@
 module Admin
   class ReservationsController < ApplicationController
     include Filterable
-    before_action :set_reservation, only: [:confirm, :reject]
+    before_action :set_reservation, only: [:confirm, :reject, :update]
+    before_action :check_reservation_status, only: [:confirm, :reject]
 
     def index
       page = params[:page] || 1
@@ -26,8 +27,6 @@ module Admin
     end
 
     def confirm
-      check_reservation_status
-      
       ActiveRecord::Base.transaction do
         @reservation.confirmed!
         @reservation.test_schedule.increment!(:number_of_participants, @reservation.participants)
@@ -39,9 +38,13 @@ module Admin
     end
 
     def reject
-      check_reservation_status
       @reservation.rejected!
       json_response(@reservation, :ok, Message.reservation_rejected)
+    end
+
+    def update
+      AdminUpdateReservation.new(@reservation, update_reservation_params).call
+      json_response(@reservation, :ok, Message.reservation_updated)
     end
 
     private
@@ -55,5 +58,10 @@ module Admin
         raise ExceptionHandler::InvalidRequest, Message.not_pending_reservation
       end
     end
+
+    def update_reservation_params
+      params.require(:reservation).permit(:participants, :test_schedule_id)
+    end
   end
 end
+
