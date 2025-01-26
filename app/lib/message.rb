@@ -110,4 +110,8 @@ class Message
   def self.invalid_status
     'Invalid status'
   end
+  
+  def self.invalid_test_schedule_time
+    'Start time must be earlier than end time'
+  end
 end
