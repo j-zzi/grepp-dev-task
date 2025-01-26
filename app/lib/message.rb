@@ -114,4 +114,12 @@ class Message
   def self.invalid_test_schedule_time
     'Start time must be earlier than end time'
   end
+
+  def self.test_schedule_has_reservations
+    'Test schedule has reservations'
+  end
+
+  def self.invalid_test_schedule_deadline
+    'Deadline must be in the future'
+  end
 end

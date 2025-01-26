@@ -22,6 +22,8 @@ Rails.application.routes.draw do
         patch :reject
       end
     end
-    resources :tests, only: [:create, :destroy]
+    resources :tests, only: [:create, :destroy] do
+      resources :schedules, only: [:create, :destroy], controller: 'test_schedules'
+    end
   end
 end

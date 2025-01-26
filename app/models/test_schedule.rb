@@ -4,9 +4,11 @@ class TestSchedule < ApplicationRecord
 
   validates :start_time, presence: true
   validates :end_time, presence: true
-
+  validate :start_time_before_end_time
+  validate :deadline_must_be_future
+  
   before_validation :set_default_values
-  before_validation :start_time_before_end_time
+  
   MAX_CAPACITY = 50_000
 
   scope :ordered, -> { order(start_time: :asc) }
@@ -21,8 +23,18 @@ class TestSchedule < ApplicationRecord
   end
 
   def start_time_before_end_time
+    return if start_time.blank? || end_time.blank?
+    
     if start_time >= end_time
       raise ExceptionHandler::InvalidRequest, Message.invalid_test_schedule_time
+    end
+  end
+
+  def deadline_must_be_future
+    return if deadline.blank?
+
+    if deadline <= Time.current
+      raise ExceptionHandler::InvalidRequest, Message.invalid_test_schedule_deadline
     end
   end
 end
