@@ -1,4 +1,6 @@
 class Reservation < ApplicationRecord
+  VALID_STATUSES = %w[pending confirmed rejected canceled].freeze
+
   belongs_to :user
   belongs_to :test_schedule
 
@@ -6,6 +8,7 @@ class Reservation < ApplicationRecord
     pending: 0, 
     confirmed: 1,  
     rejected: 2,  
+    canceled: 3
   }
 
   validates :user_id, presence: true
@@ -14,6 +17,22 @@ class Reservation < ApplicationRecord
 
   validate :within_deadline
   validate :not_exceeding_capacity
+
+  def confirm!
+    check_pending!
+    
+    ActiveRecord::Base.transaction do
+      confirmed!
+      test_schedule.increment!(:number_of_participants, participants)
+    rescue ActiveRecord::RecordInvalid
+      raise ExceptionHandler::InvalidRequest, Message.reservation_not_updated
+    end
+  end
+
+  def reject!
+    check_pending!
+    rejected!
+  end
 
   private
 
@@ -34,5 +53,9 @@ class Reservation < ApplicationRecord
     if (current_participants + participants) > max_capacity
       raise ExceptionHandler::InvalidRequest, Message.exceeds_capacity
     end
+  end
+
+  def check_pending!
+    raise ExceptionHandler::InvalidRequest, Message.not_pending_reservation unless pending?
   end
 end

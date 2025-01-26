@@ -12,18 +12,16 @@ class CreateReservation
 
   private
 
-  attr_reader :user, :test_schedule_id, :participants
-
   def find_test_schedule
-    TestSchedule.find(test_schedule_id)
+    TestSchedule.find(@test_schedule_id)
   rescue ActiveRecord::RecordNotFound
     raise(ExceptionHandler::InvalidRequest, Message.not_found('Test schedule'))
   end
 
   def create_reservation(test_schedule)
-    user.reservations.create!(
+    @user.reservations.create!(
       test_schedule: test_schedule,
-      participants: participants
+      participants: @participants
     )
   rescue ActiveRecord::RecordInvalid => e
     raise(ExceptionHandler::InvalidRequest, Message.reservation_not_created)

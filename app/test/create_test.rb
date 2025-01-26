@@ -9,7 +9,7 @@ class CreateTest
       create_test_with_schedules
     end
   rescue ActiveRecord::RecordInvalid => e
-    raise ExceptionHandler::InvalidRequest, e.record.errors.full_messages.join(', ')
+    raise ExceptionHandler::InvalidRequest, Message.test_not_created
   end
   
   private
