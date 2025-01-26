@@ -5,7 +5,7 @@ class AdminController < ApplicationController
 
   def authorize_admin
     unless current_user.admin?
-      raise ExceptionHandler::InvalidRequest, Message.not_authorized
+      raise ExceptionHandler::InvalidRequest, Message.unauthorized
     end
   end
 end

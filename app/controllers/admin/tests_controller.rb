@@ -1,4 +1,4 @@
-class Admin::TestsController < ApplicationController
+class Admin::TestsController < AdminController
   before_action :set_test, only: :destroy
 
   def create
