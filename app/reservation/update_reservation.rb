@@ -1,7 +1,7 @@
 class UpdateReservation
-  def initialize(reservation, participants)
+  def initialize(reservation, update_params)
     @reservation = reservation
-    @participants = participants
+    @update_params = update_params
   end
 
   def call
@@ -13,12 +13,12 @@ class UpdateReservation
 
   def check_reservation_status
     unless @reservation.pending?
-      raise(ExceptionHandler::InvalidRequest, Message.cannot_update_reservation)
+      raise(ExceptionHandler::InvalidRequest, Message.not_pending_reservation)
     end
   end
 
   def update_reservation
-    @reservation.update!(participants: @participants)
+    @reservation.update!(@update_params)
   rescue ActiveRecord::RecordInvalid => e
     raise(ExceptionHandler::InvalidRequest, Message.reservation_not_updated)
   end

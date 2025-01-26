@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :reservations, only: [:index, :create, :update, :destroy]
 
-  resources :tests, only: [:index, :create, :destroy]
+  resources :tests, only: :index
 
   namespace :admin do
     resources :reservations, only: [:index, :update] do
@@ -18,6 +18,6 @@ Rails.application.routes.draw do
         patch :reject
       end
     end
-    resources :tests, only: :create
+    resources :tests, only: [:create, :destroy]
   end
 end

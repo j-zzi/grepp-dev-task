@@ -2,6 +2,7 @@ class Test < ApplicationRecord
     VALID_STATUSES = %w[closed ongoing].freeze
     
     has_many :test_schedules, dependent: :destroy
+    has_many :reservations, through: :test_schedules
 
     validates :title, presence: true
     validates :description, presence: true
@@ -25,4 +26,15 @@ class Test < ApplicationRecord
         )
       )
     }
+
+    def destroy
+      raise ExceptionHandler::InvalidRequest, Message.cannot_delete_test_with_reservations if has_active_reservations?
+      super
+    end
+
+    private
+
+    def has_active_reservations?
+      reservations.where(status: [:pending, :confirmed]).exists?
+    end
 end

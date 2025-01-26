@@ -18,6 +18,22 @@ class Reservation < ApplicationRecord
   validate :within_deadline
   validate :not_exceeding_capacity
 
+  def confirm!
+    check_pending!
+    
+    ActiveRecord::Base.transaction do
+      confirmed!
+      test_schedule.increment!(:number_of_participants, participants)
+    rescue ActiveRecord::RecordInvalid
+      raise ExceptionHandler::InvalidRequest, Message.reservation_not_updated
+    end
+  end
+
+  def reject!
+    check_pending!
+    rejected!
+  end
+
   private
 
   def within_deadline
@@ -39,7 +55,7 @@ class Reservation < ApplicationRecord
     end
   end
 
-  def check_pending_status
+  def check_pending!
     raise ExceptionHandler::InvalidRequest, Message.not_pending_reservation unless pending?
   end
 end

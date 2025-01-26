@@ -99,6 +99,10 @@ class Message
     'Test could not be created'
   end
 
+  def self.cannot_delete_test_with_reservations
+    'Cannot delete test with active reservations'
+  end
+
   def self.invalid_status
     'Invalid status'
   end

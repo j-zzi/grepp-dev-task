@@ -32,7 +32,7 @@ class ReservationsController < ApplicationController
   end
 
   def update
-    reservation = UpdateReservation.new(@reservation, update_params[:participants]).call
+    reservation = UpdateReservation.new(@reservation, update_params).call
     json_response(@reservation, :ok, Message.reservation_updated)
   end
 
@@ -53,7 +53,7 @@ class ReservationsController < ApplicationController
     params.require(:reservation).permit(:test_schedule_id, :participants)
   end
 
-  def update_params
-    params.require(:reservation).permit(:participants)
+  def update_params 
+    params.require(:reservation).permit(:participants,:test_schedule_id)
   end
 end
