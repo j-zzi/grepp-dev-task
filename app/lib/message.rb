@@ -103,6 +103,10 @@ class Message
     'Test schedules read successfully'
   end
 
+  def self.test_schedule_created
+    'Test schedule created successfully'
+  end 
+
   def self.cannot_delete_test_with_reservations
     'Cannot delete test with active reservations'
   end
